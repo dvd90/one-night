@@ -11,6 +11,11 @@ and shipped **native-first**: Steam + Android/iOS, with a Web/itch.io demo.
 
 **Web demo (auto-deployed from `main`):** https://dvd90.github.io/one-night/
 
+> **One-time setup (repo admin):** every push to `main` already builds, tests, and
+> publishes the web export to the `gh-pages` branch — but GitHub Pages itself must
+> be switched on once by hand: **Settings → Pages → Source: "Deploy from a branch"
+> → Branch: `gh-pages` / `/ (root)` → Save.** The URL above goes live a minute later.
+
 Current state: the **Docks arena** — an endless-wave brawl exercising the M1+M2
 core (movement, camera, light combo, heavy, block, dodge, wave spawner, HUD).
 
