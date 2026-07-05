@@ -1,0 +1,10 @@
+# Godot 4 (see CLAUDE.md — ignore the editor cache and export output)
+.godot/
+export/
+
+# Godot text-resource junk
+*.translation
+
+# Local tooling
+.venv/
+__pycache__/

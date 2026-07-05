@@ -1,0 +1,57 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="ONE NIGHT"
+config/description="A short, story-driven 3D gang brawler in a PS1/PS2 low-poly skin. The Warriors crew combat x GTA urban flavor."
+config/version="0.1.0-m0"
+run/main_scene="res://scenes/districts/test_level.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*res://autoload/event_bus.gd"
+Config="*res://autoload/config.gd"
+SaveManager="*res://autoload/save_manager.gd"
+MusicDirector="*res://autoload/music_director.gd"
+Game="*res://autoload/game.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+
+[display]
+
+; PS1 pipeline: render at a small base resolution and upscale with nearest
+; filtering (ARCHITECTURE.md §7). 640x360 sits inside the mobile/web budget
+; (360-432p) and scales integer-cleanly to 720p/1080p/1440p.
+window/size/viewport_width=640
+window/size/viewport_height=360
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[physics]
+
+; Deterministic combat: fixed 60 Hz tick, smoothed by physics interpolation,
+; with capped catch-up steps to avoid a spiral of death (ARCHITECTURE.md §3).
+common/physics_ticks_per_second=60
+common/max_physics_steps_per_frame=8
+common/physics_interpolation=true
+3d/physics_engine="Jolt Physics"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/canvas_textures/default_texture_filter=0

@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Environment" path="res://data/environments/test_level_env.tres" id="1_env"]
+[ext_resource type="Material" path="res://assets/materials/ps1_base_material.tres" id="2_base"]
+[ext_resource type="Material" path="res://assets/materials/ps1_crimson_material.tres" id="3_crimson"]
+[ext_resource type="Script" path="res://scenes/districts/test_cube.gd" id="4_cube"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ground"]
+material = ExtResource("2_base")
+size = Vector3(40, 0.5, 40)
+
+[sub_resource type="BoxMesh" id="BoxMesh_cube"]
+material = ExtResource("3_crimson")
+size = Vector3(1, 1, 1)
+
+[node name="TestLevel" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_env")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+mesh = SubResource("BoxMesh_ground")
+
+[node name="TestCube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_cube")
+script = ExtResource("4_cube")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 3.2, 8)
+current = true
+fov = 60.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.819152, 0.469846, -0.32899, 0, 0.573576, 0.819152, 0.573576, -0.67101, 0.469846, 6, 8, 6)
+shadow_enabled = true

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" fill="#0b0d14"/>
+  <rect x="8" y="8" width="112" height="112" fill="none" stroke="#2a3350" stroke-width="4"/>
+  <text x="64" y="62" font-family="monospace" font-size="34" font-weight="bold" fill="#ff3860" text-anchor="middle">ONE</text>
+  <text x="64" y="100" font-family="monospace" font-size="34" font-weight="bold" fill="#3ddcff" text-anchor="middle">NIGHT</text>
+</svg>
