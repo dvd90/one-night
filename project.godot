@@ -146,3 +146,7 @@ common/physics_interpolation=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/canvas_textures/default_texture_filter=0
+; Required by the Web preset's VRAM compression options (for_desktop needs
+; S3TC/BPTC, for_mobile needs ETC2/ASTC) — the export silently fails without.
+textures/vram_compression/import_etc2_astc=true
+textures/vram_compression/import_s3tc_bptc=true

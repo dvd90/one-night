@@ -41,7 +41,8 @@ func _physics_process(_delta: float) -> void:
 	if _restart_countdown > 0:
 		_restart_countdown -= 1
 		if _restart_countdown == 0:
-			get_tree().reload_current_scene()
+			# Deferred: reloading mid-physics-tick while the tree is locked errors.
+			(func() -> void: get_tree().reload_current_scene()).call_deferred()
 	if _next_wave_countdown > 0:
 		_next_wave_countdown -= 1
 		if _next_wave_countdown == 0:
