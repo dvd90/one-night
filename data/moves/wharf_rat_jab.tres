@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/move_data.gd" id="1_script"]
+
+[resource]
+resource_name = "wharf_rat_jab"
+script = ExtResource("1_script")
+move_name = &"wharf_rat_jab"
+startup_ticks = 20
+active_ticks = 3
+recovery_ticks = 22
+damage = 7.0
+knockback_speed = 3.5
+knockback_lift = 0.0
+hitstun_ticks = 12
+hitstop_ticks = 2
+cancel_from_tick = 0
+guard_break = false
+lunge_speed = 2.5

@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scenes/enemies/fodder.gd" id="1_fodder"]
+[ext_resource type="Resource" path="res://data/enemies/wharf_rat.tres" id="2_data"]
+[ext_resource type="Resource" path="res://data/moves/wharf_rat_jab.tres" id="3_jab"]
+[ext_resource type="Material" path="res://assets/materials/ps1_crimson_material.tres" id="4_crimson"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape_body"]
+radius = 0.35
+height = 1.7
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = ExtResource("4_crimson")
+radius = 0.32
+height = 1.1
+
+[sub_resource type="BoxMesh" id="BoxMesh_head"]
+material = ExtResource("4_crimson")
+size = Vector3(0.36, 0.36, 0.36)
+
+[sub_resource type="BoxShape3D" id="BoxShape_hitbox"]
+size = Vector3(0.9, 1.1, 1.0)
+
+[node name="Fodder" type="CharacterBody3D"]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_fodder")
+data = ExtResource("2_data")
+attack_move = ExtResource("3_jab")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape_body")
+
+[node name="Visual" type="Node3D" parent="."]
+
+[node name="Body" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("CapsuleMesh_body")
+
+[node name="Head" type="MeshInstance3D" parent="Visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, 0)
+mesh = SubResource("BoxMesh_head")
+
+[node name="Hitbox" type="Area3D" parent="."]
+collision_layer = 16
+collision_mask = 32
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.8)
+shape = SubResource("BoxShape_hitbox")
+
+[node name="Hurtbox" type="Area3D" parent="."]
+collision_layer = 64
+collision_mask = 8
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("CapsuleShape_body")

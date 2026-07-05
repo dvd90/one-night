@@ -61,38 +61,62 @@ sample test passes; no GDScript warnings.
 **Goal:** drive a blocky hero around a test level with a good third-person camera, on
 keyboard/gamepad *and* touch.
 
-- [ ] `[EDITOR]` Input Map actions: move, attack_light/heavy, grab, block, dodge,
-      interact, command, pause (keyboard + gamepad).
-- [ ] `[SCENE]` `player.tscn` = `CharacterBody3D` + collision + `SpringArm3D` camera
-      (collision-aware follow).
-- [ ] `[SCRIPT]` `player.gd`: move/accel/decel, gravity, slopes, facing, in
-      `_physics_process` 🎚.
-- [ ] `[SCRIPT]` Camera rig logic (spring arm follow, soft lag) 🎚.
-- [ ] `[SCENE]` Placeholder hero `.glb` + `AnimationTree` (idle/run blend).
-- [ ] `[SCRIPT]` `[SCENE]` Touch controls: virtual joystick + action buttons,
-      scalable/repositionable ⛏.
+- [x] `[EDITOR]` Input Map actions: move, attack_light/heavy, grab, block, dodge,
+      interact, command, pause (keyboard + gamepad + mouse; in `project.godot`).
+- [x] `[SCENE]` `player.tscn` = `CharacterBody3D` + collision + `SpringArm3D` camera
+      (collision-aware follow). *(human: verify wiring in-editor)*
+- [x] `[SCRIPT]` `player.gd`: move/accel/decel, gravity, slopes, facing, in
+      `_physics_process` 🎚 (`data/player_movement.tres`; base logic in
+      `scripts/combatant.gd`).
+- [x] `[SCRIPT]` Camera rig logic (spring arm follow, soft lag, auto-yaw, hit
+      shake) 🎚 (`scenes/player/camera_rig.gd`).
+- [~] `[SCENE]` Placeholder hero `.glb` + `AnimationTree` (idle/run blend).
+      *(primitive-mesh hero for now; a real .glb + AnimationTree needs art — deferred
+      to the M4 art pass)*
+- [x] `[SCRIPT]` `[SCENE]` Touch controls: virtual joystick + action buttons,
+      scalable/repositionable ⛏ (custom Controls in `scenes/ui/touch_*.gd`, self-drawn,
+      export-tunable radius/size; shown only on touch devices).
 - [ ] `[EDITOR]` Test on a real phone (native or web) — movement + camera usable.
 
 **Acceptance:** hero runs smoothly on desktop and a real phone; camera never clips
 into walls.
+
+> **M1 note (2026-07-05):** touch controls are a small custom Control pair rather
+> than the 4.7 built-in VirtualJoystick node — implemented sight-unseen in a sandbox,
+> so hand-rolled code beat an unverifiable node API. Swap later if the built-in is
+> nicer (logged in OPEN_QUESTIONS).
 
 ---
 
 ## M2 — Combat core (the heart of the game)
 **Goal:** fight one enemy with weighty, deterministic melee.
 
-- [ ] `[SCRIPT]` `MoveData` Resource + a light-combo and a heavy move as `.tres` 🎚.
-- [ ] `[SCRIPT]` Combatant state machine; attack states step MoveData in ticks ⛏.
-- [ ] `[SCENE]` `Hitbox`/`Hurtbox` as `Area3D` with proper collision layers/masks.
-- [ ] `[SCRIPT]` Hit resolution: damage, hitstun, knockback, stagger, KO ⛏.
-- [ ] `[SCRIPT]` Block + guard-break; dodge with i-frame ticks 🎚.
-- [ ] `[SCENE]` `[SCRIPT]` One fodder enemy (as a full scene for now) with basic FSM.
-- [ ] `[SCRIPT]` Hit feedback: hitstop, camera shake, `GPUParticles3D` sparks, SFX
-      hooks ⛏.
-- [ ] `[SCRIPT]` GUT tests: frame/tick resolution, damage/knockback, i-frame windows.
+- [x] `[SCRIPT]` `MoveData` Resource + a light-combo and a heavy move as `.tres` 🎚
+      (`data/moves/player_light_1..3.tres`, `player_heavy.tres`).
+- [x] `[SCRIPT]` Combatant state machine; attack states step MoveData in ticks ⛏
+      (`scripts/combatant.gd`: idle/move/attack/block/dodge/hitstun/down).
+- [x] `[SCENE]` `Hitbox`/`Hurtbox` as `Area3D` with proper collision layers/masks
+      (named layers in `project.godot`; player hitboxes only see enemy hurtboxes and
+      vice versa).
+- [x] `[SCRIPT]` Hit resolution: damage, hitstun, knockback, stagger, KO ⛏
+      (`Combatant.take_hit`, pure math in `scripts/combat_math.gd`).
+- [x] `[SCRIPT]` Block + guard-break; dodge with i-frame ticks 🎚 (frontal-arc block,
+      heavies guard-break, dodge window in `CombatantData`).
+- [x] `[SCENE]` `[SCRIPT]` One fodder enemy (as a full scene for now) with basic FSM
+      (`scenes/enemies/fodder.*`: seek + separation, telegraphed jab, KO despawn).
+- [x] `[SCRIPT]` Hit feedback: hitstop, camera shake, particle sparks, SFX
+      hooks ⛏ (hitstop freezes both actors; shake respects the screenshake toggle;
+      pooled `CPUParticles3D` sparks; SFX hook = `EventBus.hit_landed`).
+- [x] `[SCRIPT]` GUT tests: frame/tick resolution, damage/knockback, i-frame windows
+      (`tests/test_combat_math.gd`, runs on the lite runner until GUT is installed).
 
 **Acceptance:** beating up a dummy *feels* good — hitstop, knockback, readable
 telegraphs; combat math covered by tests.
+
+> **M2 note (2026-07-05):** the Docks arena (`scenes/districts/docks_arena.tscn`,
+> now the main scene) is an endless-wave brawl to exercise all of this: wave spawner,
+> HUD, lose/retry loop, combat-intensity events. Feel numbers are first-pass `.tres`
+> guesses — the FIND-THE-FUN gate below is where they get tuned by hand, on a phone.
 
 ---
 

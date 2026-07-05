@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/move_data.gd" id="1_script"]
+
+[resource]
+resource_name = "player_heavy"
+script = ExtResource("1_script")
+move_name = &"heavy"
+startup_ticks = 16
+active_ticks = 4
+recovery_ticks = 24
+damage = 22.0
+knockback_speed = 7.0
+knockback_lift = 2.5
+hitstun_ticks = 28
+hitstop_ticks = 6
+cancel_from_tick = 0
+guard_break = true
+lunge_speed = 2.0

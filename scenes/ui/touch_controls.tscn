@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/touch_controls.gd" id="1_layer"]
+[ext_resource type="Script" path="res://scenes/ui/touch_joystick.gd" id="2_stick"]
+[ext_resource type="Script" path="res://scenes/ui/touch_button.gd" id="3_button"]
+
+[node name="TouchControls" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1_layer")
+
+[node name="Joystick" type="Control" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -204.0
+offset_right = 204.0
+offset_bottom = -24.0
+script = ExtResource("2_stick")
+radius = 80.0
+
+[node name="LightButton" type="Control" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_top = -180.0
+offset_right = -36.0
+offset_bottom = -100.0
+script = ExtResource("3_button")
+action = &"attack_light"
+label = "ATK"
+color = Color(1, 0.45, 0.45, 0.22)
+
+[node name="HeavyButton" type="Control" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -204.0
+offset_top = -132.0
+offset_right = -132.0
+offset_bottom = -60.0
+script = ExtResource("3_button")
+action = &"attack_heavy"
+label = "HVY"
+color = Color(1, 0.7, 0.35, 0.22)
+
+[node name="DodgeButton" type="Control" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -116.0
+offset_top = -84.0
+offset_right = -44.0
+offset_bottom = -12.0
+script = ExtResource("3_button")
+action = &"dodge"
+label = "DGE"
+color = Color(0.45, 0.8, 1, 0.22)
+
+[node name="BlockButton" type="Control" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -284.0
+offset_top = -84.0
+offset_right = -212.0
+offset_bottom = -12.0
+script = ExtResource("3_button")
+action = &"block"
+label = "BLK"
+color = Color(0.6, 0.6, 0.65, 0.22)

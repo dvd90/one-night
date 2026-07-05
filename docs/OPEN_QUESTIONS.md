@@ -23,9 +23,11 @@ to keep moving** and log it here.
       `assert_eq/assert_true/assert_false` signatures). Install GUT in an editor
       session and port by swapping the `extends` — steps in `docs/M0_NOTES.md` §3.
 - [x] **Base viewport: 640×360** (mobile/web budget row), window override 1280×720.
-- [x] Godot 4.7 ships a built-in **VirtualJoystick** node — prefer it over a
-      community addon in M1 (supersedes the touch-controls question below;
-      re-evaluate then).
+- [x] Godot 4.7 ships a built-in **VirtualJoystick** node — noted, but M1 shipped a
+      small **custom Control** joystick + buttons instead (implemented sight-unseen in
+      a sandbox; hand-rolled beat an unverifiable node API). Re-evaluate the built-in
+      node during the phone ergonomics pass (supersedes the touch-controls question
+      below).
 
 ## Technical (open)
 - [ ] **Jolt on web export** — confirm it works in the WASM/Compatibility build in

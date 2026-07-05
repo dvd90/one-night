@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="1_script"]
+[ext_resource type="Resource" path="res://data/enemies/wharf_rat_movement.tres" id="2_movement"]
+
+[resource]
+resource_name = "wharf_rat"
+script = ExtResource("1_script")
+max_health = 30.0
+movement = ExtResource("2_movement")
+dodge_duration_ticks = 20
+dodge_iframe_start = 2
+dodge_iframe_end = 10
+dodge_speed = 7.0
+dodge_cooldown_ticks = 30
+aggro_range = 16.0
+attack_range = 1.7
+attack_cooldown_ticks = 50
+separation_radius = 1.3
+flash_reward = 5

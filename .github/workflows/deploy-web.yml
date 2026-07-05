@@ -50,8 +50,11 @@ jobs:
 
       - name: Export Web
         run: |
+          echo "--- installed export templates ---"
+          ls -la "$HOME/.local/share/godot/export_templates/" || true
+          ls "$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable/" || true
           mkdir -p export/web
-          godot --headless --export-release "Web" export/web/index.html
+          godot --headless --verbose --export-release "Web" export/web/index.html 2>&1 | grep -vE "^(reimport|import|progress)" | tail -80
           test -f export/web/index.html
 
       - name: Upload Pages artifact
