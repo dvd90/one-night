@@ -7,6 +7,24 @@ and shipped **native-first**: Steam + Android/iOS, with a Web/itch.io demo.
 
 > **North star:** finished, polished, short, sellable. ~2–4 hours of content.
 
+## ▶ Play the current build
+
+**Web demo (auto-deployed from `main`):** https://dvd90.github.io/one-night/
+
+Current state: the **Docks arena** — an endless-wave brawl exercising the M1+M2
+core (movement, camera, light combo, heavy, block, dodge, wave spawner, HUD).
+
+| Action | Keyboard | Mouse | Gamepad | Touch |
+|---|---|---|---|---|
+| Move | WASD / arrows | — | Left stick | Virtual joystick |
+| Light attack (combo ×3) | J | Left click | X | ATK |
+| Heavy (guard-break) | K | Right click | Y | HVY |
+| Dodge (i-frames) | Space | — | A | DGE |
+| Block | Shift | — | LB | BLK |
+
+To run locally: install [Godot 4.7](https://godotengine.org/download), open
+`project.godot`, press F5. Tests: `godot --headless -s tests/lite_test_runner.gd`.
+
 ## Docs (read in this order)
 
 0. **[KICKOFF.md](./KICKOFF.md)** — how to start with Claude Code + the literal first
