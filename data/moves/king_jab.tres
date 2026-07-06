@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MoveData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/move_data.gd" id="1_script"]
+
+[resource]
+resource_name = "king_jab"
+script = ExtResource("1_script")
+move_name = &"king_jab"
+startup_ticks = 16
+active_ticks = 3
+recovery_ticks = 18
+damage = 10.0
+knockback_speed = 4.0
+knockback_lift = 0.0
+hitstun_ticks = 16
+hitstop_ticks = 3
+cancel_from_tick = 0
+guard_break = false
+lunge_speed = 3.5

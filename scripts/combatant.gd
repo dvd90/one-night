@@ -10,6 +10,7 @@ extends CharacterBody3D
 
 signal health_changed(current: float, maximum: float)
 signal downed()
+signal weapon_changed(weapon: WeaponData, hits_left: int)
 
 enum State { IDLE, MOVE, ATTACK, BLOCK, DODGE, HITSTUN, DOWN }
 
@@ -29,6 +30,10 @@ var dodge_tick: int = 0
 # Hit reactions.
 var hitstun_remaining: int = 0
 var hitstop_remaining: int = 0
+
+# Held environmental weapon (GAME_DESIGN.md §6), null when bare-handed.
+var weapon: WeaponData = null
+var weapon_hits_left: int = 0
 
 var _hit_this_swing: Array[Combatant] = []
 var _dodge_direction: Vector3 = Vector3.FORWARD
@@ -182,7 +187,9 @@ func take_hit(attacker: Combatant, move: MoveData) -> void:
 
 	var to_attacker := attacker.global_position - global_position
 	var blocked := state == State.BLOCK and CombatMath.is_frontal(facing, to_attacker)
-	var damage := CombatMath.damage_after_block(move.damage, blocked, move.guard_break)
+	var raw_damage := move.damage + attacker.weapon_damage_bonus()
+	var damage := CombatMath.damage_after_block(raw_damage, blocked, move.guard_break)
+	attacker.spend_weapon_hit()
 
 	if blocked and damage <= 0.0:
 		# Chip-free block: small pushback, no stun. Guard-break falls through.
@@ -203,11 +210,60 @@ func take_hit(attacker: Combatant, move: MoveData) -> void:
 		return
 
 	velocity = CombatMath.knockback_velocity(
-		attacker.global_position, global_position, move.knockback_speed, move.knockback_lift
+		attacker.global_position,
+		global_position,
+		move.knockback_speed + attacker.weapon_knockback_bonus(),
+		move.knockback_lift
 	)
-	hitstun_remaining = move.hitstun_ticks
+	hitstun_remaining = CombatMath.scaled_hitstun(move.hitstun_ticks, data.hitstun_scale)
 	_interrupt_attack()
 	state = State.HITSTUN
+
+
+func heal(amount: float) -> void:
+	if state == State.DOWN:
+		return
+	health = minf(health + amount, data.max_health)
+	health_changed.emit(health, data.max_health)
+
+
+## Brings a downed combatant back up (crew revive — GAME_DESIGN.md §7).
+func revive(health_fraction: float = 0.5) -> void:
+	if state != State.DOWN:
+		return
+	health = clampf(data.max_health * health_fraction, 1.0, data.max_health)
+	hurtbox.set_deferred("monitorable", true)
+	rotation.x = 0.0
+	state = State.IDLE
+	health_changed.emit(health, data.max_health)
+
+
+# -- Weapons -----------------------------------------------------------------
+
+
+func equip_weapon(new_weapon: WeaponData) -> void:
+	weapon = new_weapon
+	weapon_hits_left = new_weapon.durability if new_weapon != null else 0
+	weapon_changed.emit(weapon, weapon_hits_left)
+
+
+func weapon_damage_bonus() -> float:
+	return weapon.damage_bonus if weapon != null else 0.0
+
+
+func weapon_knockback_bonus() -> float:
+	return weapon.knockback_bonus if weapon != null else 0.0
+
+
+## One durability charge per connected hit; the weapon breaks at zero.
+func spend_weapon_hit() -> void:
+	if weapon == null:
+		return
+	weapon_hits_left -= 1
+	if weapon_hits_left <= 0:
+		weapon = null
+		weapon_hits_left = 0
+	weapon_changed.emit(weapon, weapon_hits_left)
 
 
 # -- Internals ---------------------------------------------------------------

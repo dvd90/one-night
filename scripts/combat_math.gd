@@ -60,3 +60,14 @@ static func is_frontal(facing: Vector3, to_attacker: Vector3) -> bool:
 ## True if `tick` (counted from dodge start) is inside the i-frame window.
 static func is_iframe_tick(data: CombatantData, tick: int) -> bool:
 	return tick >= data.dodge_iframe_start and tick <= data.dodge_iframe_end
+
+
+## Hitstun after the defender's armor scale; a connected hit always stuns
+## for at least 1 tick so feedback never fully disappears.
+static func scaled_hitstun(base_ticks: int, scale: float) -> int:
+	return maxi(int(round(float(base_ticks) * scale)), 1)
+
+
+## Boss phase from remaining health: phase 2 at or below half.
+static func boss_phase(health: float, max_health: float) -> int:
+	return 2 if health <= max_health * 0.5 else 1

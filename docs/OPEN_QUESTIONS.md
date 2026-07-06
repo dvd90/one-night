@@ -29,6 +29,13 @@ to keep moving** and log it here.
       node during the phone ergonomics pass (supersedes the touch-controls question
       below).
 
+## Noted in the vertical-slice session (2026-07-05)
+- [ ] **Audio is the biggest remaining gap** — no music/SFX assets exist (the agent
+      sandbox can't source them). `MusicDirector` + `EventBus.hit_landed` are the
+      wired hooks; sourcing a darksynth pack + crunchy SFX is a human task (M6).
+- [ ] Enemy **block/dodge reactions** (bruiser blocking, skater dodges) deferred to
+      district 2 enemy work — the Combatant base already supports both states.
+
 ## Technical (open)
 - [ ] **Jolt on web export** — confirm it works in the WASM/Compatibility build in
       M0/M3; fall back to Godot Physics for web if needed.

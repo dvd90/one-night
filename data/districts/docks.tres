@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="DistrictData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/district_data.gd" id="1_script"]
+
+[resource]
+resource_name = "docks"
+script = ExtResource("1_script")
+district_name = &"docks"
+display_name = "THE DOCKS"
+wave_fodder = Array[int]([3, 4, 5, 6])
+wave_bruisers = Array[int]([0, 0, 1, 2])
+boss_extra_fodder = 2
+heal_every_wave = true
+weapon_every_n_waves = 2

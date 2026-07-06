@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="1_script"]
+[ext_resource type="Resource" path="res://data/enemies/dock_bruiser_movement.tres" id="2_movement"]
+
+[resource]
+resource_name = "dock_bruiser"
+script = ExtResource("1_script")
+max_health = 70.0
+movement = ExtResource("2_movement")
+hitstun_scale = 0.4
+dodge_duration_ticks = 20
+dodge_iframe_start = 2
+dodge_iframe_end = 10
+dodge_speed = 6.0
+dodge_cooldown_ticks = 40
+aggro_range = 16.0
+attack_range = 1.9
+attack_cooldown_ticks = 70
+separation_radius = 1.6
+flash_reward = 15

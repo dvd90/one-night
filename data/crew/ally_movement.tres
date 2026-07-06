@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="MovementData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/movement_data.gd" id="1_script"]
+
+[resource]
+resource_name = "ally_movement"
+script = ExtResource("1_script")
+max_speed = 5.5
+acceleration = 34.0
+deceleration = 30.0
+turn_speed = 11.0
+gravity = 24.0

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/enemy_data.gd" id="1_script"]
+[ext_resource type="Resource" path="res://data/crew/ally_movement.tres" id="2_movement"]
+
+[resource]
+resource_name = "ally"
+script = ExtResource("1_script")
+max_health = 80.0
+movement = ExtResource("2_movement")
+hitstun_scale = 1.0
+dodge_duration_ticks = 22
+dodge_iframe_start = 2
+dodge_iframe_end = 14
+dodge_speed = 9.0
+dodge_cooldown_ticks = 20
+aggro_range = 14.0
+attack_range = 1.6
+attack_cooldown_ticks = 40
+separation_radius = 1.0
+flash_reward = 0

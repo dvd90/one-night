@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/resources/weapon_data.gd" id="1_script"]
+
+[resource]
+resource_name = "bat"
+script = ExtResource("1_script")
+weapon_name = &"bat"
+display_name = "BAT"
+damage_bonus = 6.0
+knockback_bonus = 1.5
+durability = 8

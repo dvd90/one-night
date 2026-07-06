@@ -4,6 +4,8 @@ extends Resource
 
 @export var max_health: float = 100.0
 @export var movement: MovementData
+## Armor: incoming hitstun is multiplied by this (bruisers/bosses < 1.0).
+@export var hitstun_scale: float = 1.0
 
 @export_group("Dodge", "dodge_")
 @export var dodge_duration_ticks: int = 24

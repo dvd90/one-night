@@ -76,6 +76,19 @@ func test_block_covers_frontal_arc_only() -> void:
 	assert_false(CombatMathScript.is_frontal(facing, Vector3(1, 0, 0)), "flank")
 
 
+func test_scaled_hitstun_respects_armor_and_floors_at_one() -> void:
+	assert_eq(CombatMathScript.scaled_hitstun(20, 1.0), 20)
+	assert_eq(CombatMathScript.scaled_hitstun(20, 0.4), 8, "bruiser armor")
+	assert_eq(CombatMathScript.scaled_hitstun(20, 0.0), 1, "always at least 1 tick")
+
+
+func test_boss_phase_flips_at_half_health() -> void:
+	assert_eq(CombatMathScript.boss_phase(200.0, 200.0), 1)
+	assert_eq(CombatMathScript.boss_phase(101.0, 200.0), 1)
+	assert_eq(CombatMathScript.boss_phase(100.0, 200.0), 2)
+	assert_eq(CombatMathScript.boss_phase(10.0, 200.0), 2)
+
+
 func test_iframe_window() -> void:
 	var data: Resource = CombatantDataScript.new()
 	data.dodge_iframe_start = 2

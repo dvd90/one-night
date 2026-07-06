@@ -10,6 +10,9 @@ extends Combatant
 ## How far away a soft-target enemy can be, in m.
 @export var target_range: float = 5.0
 
+## Current crew command, toggled with the `command` action.
+var crew_command: StringName = &"mob"
+
 var _combo_index: int = 0
 
 @onready var camera_rig: Node3D = $CameraRig
@@ -18,6 +21,7 @@ var _combo_index: int = 0
 func _ready() -> void:
 	super()
 	add_to_group("player")
+	add_to_group("heroes")
 
 
 func _physics_process(delta: float) -> void:
@@ -48,6 +52,9 @@ func _read_combat_input() -> void:
 			_combo_index = 0
 	elif Input.is_action_just_pressed(&"dodge"):
 		try_dodge(_desired_direction())
+	elif Input.is_action_just_pressed(&"command"):
+		crew_command = &"regroup" if crew_command == &"mob" else &"mob"
+		EventBus.crew_command_changed.emit(crew_command)
 
 
 func _try_light() -> void:

@@ -20,12 +20,22 @@ func _input(event: InputEvent) -> void:
 		if touch.pressed and _touch_index == -1 \
 				and get_global_rect().has_point(touch.position):
 			_touch_index = touch.index
-			Input.action_press(action)
+			_send_action(true)
 			queue_redraw()
 		elif not touch.pressed and touch.index == _touch_index:
 			_touch_index = -1
-			Input.action_release(action)
+			_send_action(false)
 			queue_redraw()
+
+
+## InputEventAction via parse_input_event updates polled action state AND
+## flows through _input/_unhandled_input (needed by e.g. the pause menu) —
+## unlike Input.action_press, which only sets polled state.
+func _send_action(pressed: bool) -> void:
+	var action_event := InputEventAction.new()
+	action_event.action = action
+	action_event.pressed = pressed
+	Input.parse_input_event(action_event)
 
 
 func _draw() -> void:

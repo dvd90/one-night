@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3]
+
+[ext_resource type="Shader" path="res://shaders/ps1_snap.gdshader" id="1_snap"]
+
+[resource]
+resource_name = "ps1_green"
+shader = ExtResource("1_snap")
+shader_parameter/snap_enabled = true
+shader_parameter/snap_resolution = 240.0
+shader_parameter/affine_enabled = true
+shader_parameter/albedo_color = Color(0.34, 0.75, 0.42, 1)

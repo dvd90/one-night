@@ -137,14 +137,22 @@ cheap here, expensive later.
 ## M3 — Crew & crowds (the identity)
 **Goal:** lead one ally; fight a real mob; beat a mini-boss.
 
-- [ ] `[SCENE]` `[SCRIPT]` `ally.tscn` + AI; downed/revive states.
-- [ ] `[SCRIPT]` Crew command system (Mob up / Hold / Wreck / Regroup) via signals 🎚.
+- [x] `[SCENE]` `[SCRIPT]` `ally.tscn` + AI; downed/revive states (revived on wave
+      clear; `Combatant.revive()` exists for a manual revive interaction later).
+- [~] `[SCRIPT]` Crew command system (Mob up / Hold / Wreck / Regroup) via signals 🎚.
+      *(two commands shipped: Mob/Regroup via `EventBus.crew_command_changed`;
+      Hold/Wreck when there's >1 ally to justify them)*
 - [ ] `[SCRIPT]` **Fodder crowd: `MultiMeshInstance3D` + `FodderManager`** (data-
       oriented, no node per enemy), seek + separation steering ⛏.
+      *(current waves stay under the full-AI cap as scene instances; MultiMesh needed
+      before real "musou" crowd counts)*
 - [ ] `[SCRIPT]` Prototype fodder animation approach (shader/vertex vs shared) ⛏.
-- [ ] `[SCENE]` `[SCRIPT]` Bruiser enemy (full AI: spacing, block, react to dodge).
-- [ ] `[SCENE]` `[SCRIPT]` Docks gang leader (boss): phase machine + telegraphs 🎚.
-- [ ] `[SCRIPT]` Object pooling for enemies/VFX; enforce actor caps ⛏.
+- [x] `[SCENE]` `[SCRIPT]` Bruiser enemy (armored: `hitstun_scale` 🎚, slow
+      guard-breaking swing; spacing via separation steering).
+- [x] `[SCENE]` `[SCRIPT]` Docks gang leader (boss): two-phase machine, phase-2
+      tempo + slam mix-in, boss health bar, telegraphs from MoveData startup 🎚.
+- [~] `[SCRIPT]` Object pooling for enemies/VFX; enforce actor caps ⛏.
+      *(VFX pooled; enemies still instantiate per wave — pool when crowds scale)*
 - [ ] `[EDITOR]` Perf pass: hit crowd budget on mobile/web ⛏.
 
 **Acceptance:** you + ally vs a mob + leader holds the perf budget on mobile.
@@ -154,15 +162,21 @@ cheap here, expensive later.
 ## M4 — District 1 world & sandbox layer
 **Goal:** turn the test level into the playable **Docks**.
 
-- [ ] `[SCRIPT]` `DistrictData` Resource (spawns, props, objectives, music set) 🎚.
-- [ ] `[SCENE]` Build Docks greybox → art pass (low-poly, atlas, fog, PS1 grade).
+- [x] `[SCRIPT]` `DistrictData` Resource (wave composition, boss support, pickup
+      cadence — `data/districts/docks.tres`) 🎚.
+- [~] `[SCENE]` Build Docks greybox → art pass (low-poly, atlas, fog, PS1 grade).
+      *(greybox arena with crates/walls/fog exists; the real explorable layout + art
+      pass still to do)*
 - [ ] `[EDITOR]` `[SCENE]` `NavigationRegion3D` + bake navmesh; `NavigationAgent3D`
-      on AI.
-- [ ] `[SCENE]` `[SCRIPT]` Pickups: environmental weapons (bat/pipe/bottle) + health
-      + flash (Area3D) 🎚.
-- [ ] `[SCRIPT]` Weapon hold/use/durability; throwables.
+      on AI. *(seek+separation steering suffices in the open arena)*
+- [x] `[SCENE]` `[SCRIPT]` Pickups: environmental weapons (bat/pipe) + health
+      (walk-over Area3D; bottle/throwables pending) 🎚.
+- [~] `[SCRIPT]` Weapon hold/use/durability; throwables. *(hold/use/durability done
+      via `WeaponData`; throwables pending)*
 - [ ] `[SCENE]` `[SCRIPT]` Destructible clutter + light reactive pedestrians ⛏.
-- [ ] `[SCRIPT]` Heat system: intensity scales reinforcements 🎚.
+- [~] `[SCRIPT]` Heat system: intensity scales reinforcements 🎚. *(wave escalation
+      via DistrictData covers the slice; a free-roam heat curve comes with the real
+      district layout)*
 - [ ] `[SCRIPT]` `[SCENE]` Tagging interaction (spray turf → reward + heat) 🎚.
 
 **Acceptance:** the Docks is explorable and fightable with weapons, pickups, heat,
@@ -173,15 +187,22 @@ and tagging — a place, not a box.
 ## M5 — Game loop, meta & flow
 **Goal:** a complete session: title → play the Docks → safehouse → save.
 
-- [ ] `[SCRIPT]` Objective/mission system (reach/clear/survive) 🎚.
+- [~] `[SCRIPT]` Objective/mission system (reach/clear/survive) 🎚. *(the slice's
+      objective — clear waves, beat the leader — is hardwired in the arena;
+      generalize into ObjectiveData when district 2 exists)*
 - [ ] `[SCRIPT]` Progression: upgrades (health, combo enders, dodge, command,
       weapon prof) 🎚.
-- [ ] `[SCRIPT]` Economy: flash earn/spend at the safehouse 🎚.
-- [ ] `[SCRIPT]` `SaveManager`: `user://` JSON, versioned schema + migration (GUT).
-- [ ] `[SCENE]` `[SCRIPT]` UI: title, pause, settings (PS1 toggles + input remap),
-      HUD, safehouse upgrade screen (Control + Theme).
-- [ ] `[SCRIPT]` District-transition flow + autosave; collectibles tracking.
-- [ ] `[SCRIPT]` Lose/retry flow (downed → checkpoint).
+- [~] `[SCRIPT]` Economy: flash earn/spend at the safehouse 🎚. *(earn + bank across
+      runs done; safehouse spend screen pending)*
+- [x] `[SCRIPT]` `SaveManager`: `user://` JSON, versioned schema + migration (tested).
+- [~] `[SCENE]` `[SCRIPT]` UI: title, pause, settings (PS1 toggles + input remap),
+      HUD, safehouse upgrade screen (Control + Theme). *(title/pause/HUD/end-screen
+      shipped with PS1+screenshake toggles; input remap + safehouse + shared Theme
+      pending)*
+- [~] `[SCRIPT]` District-transition flow + autosave; collectibles tracking.
+      *(title ↔ district flow + autosave-on-run-end; multi-district transition
+      when district 2 exists)*
+- [x] `[SCRIPT]` Lose/retry flow (downed → retry/title with banked flash).
 
 **Acceptance:** a stranger can launch, understand the goal, play the Docks start to
 finish, upgrade, save, and resume.

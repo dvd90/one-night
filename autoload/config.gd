@@ -14,6 +14,8 @@ const PS1_MATERIALS: Array[ShaderMaterial] = [
 	preload("res://assets/materials/ps1_base_material.tres"),
 	preload("res://assets/materials/ps1_crimson_material.tres"),
 	preload("res://assets/materials/ps1_cyan_material.tres"),
+	preload("res://assets/materials/ps1_gold_material.tres"),
+	preload("res://assets/materials/ps1_green_material.tres"),
 ]
 
 ## Single source of truth for setting keys and their default values.

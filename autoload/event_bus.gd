@@ -28,6 +28,12 @@ signal enemy_downed(enemy: Node)
 @warning_ignore("unused_signal")
 signal combat_intensity_changed(intensity: float)
 
+# -- Crew --------------------------------------------------------------------
+
+## Current crew command: &"mob" (engage freely) or &"regroup" (stay close).
+@warning_ignore("unused_signal")
+signal crew_command_changed(command: StringName)
+
 # -- Meta --------------------------------------------------------------------
 
 # reason: settings values are heterogeneous (bool/float/int), so Variant.

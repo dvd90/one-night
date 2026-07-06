@@ -16,8 +16,11 @@ and shipped **native-first**: Steam + Android/iOS, with a Web/itch.io demo.
 > be switched on once by hand: **Settings → Pages → Source: "Deploy from a branch"
 > → Branch: `gh-pages` / `/ (root)` → Save.** The URL above goes live a minute later.
 
-Current state: the **Docks arena** — an endless-wave brawl exercising the M1+M2
-core (movement, camera, light combo, heavy, block, dodge, wave spawner, HUD).
+Current state: **District 1 — The Docks**, playable start to finish: title screen →
+4 escalating waves of Wharf Rats (+ armored bruisers) with your crew ally at your
+side → the **Wharf Rat King** (two-phase boss) → victory. Weapon and health
+pickups, flash currency banked across runs, pause menu with PS1/screenshake
+toggles, lose/retry flow.
 
 | Action | Keyboard | Mouse | Gamepad | Touch |
 |---|---|---|---|---|
@@ -26,6 +29,8 @@ core (movement, camera, light combo, heavy, block, dodge, wave spawner, HUD).
 | Heavy (guard-break) | K | Right click | Y | HVY |
 | Dodge (i-frames) | Space | — | A | DGE |
 | Block | Shift | — | LB | BLK |
+| Crew command (mob/regroup) | Q | — | RB | CMD |
+| Pause | Esc | — | Start | II |
 
 To run locally: install [Godot 4.7](https://godotengine.org/download), open
 `project.godot`, press F5. Tests: `godot --headless -s tests/lite_test_runner.gd`.

@@ -11,7 +11,8 @@ const DESPAWN_TICKS := 180
 
 var _attack_cooldown: int = 0
 var _down_ticks: int = 0
-var _player: Combatant = null
+# Nearest hero (player or crew ally) this enemy is hunting.
+var _target: Combatant = null
 
 
 func _ready() -> void:
@@ -30,8 +31,8 @@ func _physics_process(delta: float) -> void:
 		if _down_ticks >= DESPAWN_TICKS:
 			queue_free()
 			return
-	if _player == null or not is_instance_valid(_player):
-		_player = _find_player()
+	if _target == null or not is_instance_valid(_target) or _target.state == State.DOWN:
+		_target = _find_target()
 	if hitstop_remaining <= 0:
 		_think()
 	super(delta)
@@ -42,31 +43,41 @@ func _think() -> void:
 		_attack_cooldown -= 1
 	if state in [State.ATTACK, State.DODGE, State.HITSTUN, State.DOWN]:
 		return
-	if _player == null or _player.state == State.DOWN:
+	if _target == null:
 		return
 	var enemy_data := data as EnemyData
-	var to_player := _player.global_position - global_position
-	to_player.y = 0.0
-	if to_player.length() <= enemy_data.attack_range \
-			and _attack_cooldown <= 0 and attack_move != null:
-		_turn_instantly(to_player)
-		if try_attack(attack_move):
-			_attack_cooldown = enemy_data.attack_cooldown_ticks
+	var to_target := _target.global_position - global_position
+	to_target.y = 0.0
+	var move := _pick_move()
+	if to_target.length() <= enemy_data.attack_range \
+			and _attack_cooldown <= 0 and move != null:
+		_turn_instantly(to_target)
+		if try_attack(move):
+			_attack_cooldown = _cooldown_ticks()
+
+
+## Overridable hooks so heavier enemies (boss) can vary moves and tempo.
+func _pick_move() -> MoveData:
+	return attack_move
+
+
+func _cooldown_ticks() -> int:
+	return (data as EnemyData).attack_cooldown_ticks
 
 
 func _desired_direction() -> Vector3:
-	if _player == null or _player.state == State.DOWN:
+	if _target == null:
 		return Vector3.ZERO
 	var enemy_data := data as EnemyData
-	var to_player := _player.global_position - global_position
-	to_player.y = 0.0
-	var distance := to_player.length()
+	var to_target := _target.global_position - global_position
+	to_target.y = 0.0
+	var distance := to_target.length()
 	if distance > enemy_data.aggro_range:
 		return Vector3.ZERO
 	var direction := Vector3.ZERO
 	# Seek, but keep a little spacing so the mob doesn't stack into one column.
 	if distance > enemy_data.attack_range * 0.8:
-		direction = to_player.normalized()
+		direction = to_target.normalized()
 	return (direction + _separation(enemy_data)).limit_length(1.0)
 
 
@@ -85,10 +96,18 @@ func _separation(enemy_data: EnemyData) -> Vector3:
 	return push * 0.8
 
 
-func _find_player() -> Combatant:
-	var nodes := get_tree().get_nodes_in_group("player")
-	if nodes.is_empty():
-		return null
-	# reason: group nodes are untyped; the cast documents the contract.
-	var node: Node = nodes[0]
-	return node as Combatant
+## Nearest live hero (player or crew ally).
+func _find_target() -> Combatant:
+	var nearest: Combatant = null
+	var nearest_dist := INF
+	for node: Node in get_tree().get_nodes_in_group("heroes"):
+		if node is not Combatant:
+			continue
+		var hero := node as Combatant
+		if hero.state == State.DOWN:
+			continue
+		var dist := global_position.distance_squared_to(hero.global_position)
+		if dist < nearest_dist:
+			nearest_dist = dist
+			nearest = hero
+	return nearest
