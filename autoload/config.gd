@@ -16,6 +16,10 @@ const PS1_MATERIALS: Array[ShaderMaterial] = [
 	preload("res://assets/materials/ps1_cyan_material.tres"),
 	preload("res://assets/materials/ps1_gold_material.tres"),
 	preload("res://assets/materials/ps1_green_material.tres"),
+	preload("res://assets/materials/ps1_asphalt_material.tres"),
+	preload("res://assets/materials/ps1_container_rust_material.tres"),
+	preload("res://assets/materials/ps1_container_teal_material.tres"),
+	preload("res://assets/materials/ps1_crate_material.tres"),
 ]
 
 ## Single source of truth for setting keys and their default values.
@@ -24,7 +28,7 @@ const PS1_MATERIALS: Array[ShaderMaterial] = [
 # reason: settings values are heterogeneous (bool/float), so Variant values.
 const DEFAULTS: Dictionary[StringName, Variant] = {
 	&"ps1/vertex_snap": true,
-	&"ps1/snap_resolution": 240.0,
+	&"ps1/snap_resolution": 160.0,
 	&"ps1/affine_mapping": true,
 	&"ps1/scanlines": false,
 	&"camera/screenshake": true,

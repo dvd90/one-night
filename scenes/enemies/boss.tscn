@@ -11,6 +11,8 @@ radius = 0.55
 height = 2.2
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+radial_segments = 8
+rings = 3
 material = ExtResource("5_gold")
 radius = 0.5
 height = 1.6

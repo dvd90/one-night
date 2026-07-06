@@ -1,6 +1,35 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scenes/ui/hud.gd" id="1_hud"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_bar_bg"]
+bg_color = Color(0.05, 0.05, 0.08, 0.78)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.9)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_health_fill"]
+bg_color = Color(0.85, 0.22, 0.28, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_boss_fill"]
+bg_color = Color(0.88, 0.68, 0.25, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_hud"]
+font_size = 15
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.85)
+
+[sub_resource type="LabelSettings" id="LabelSettings_message"]
+font_size = 26
+outline_size = 6
+outline_color = Color(0, 0, 0, 0.9)
+
+[sub_resource type="LabelSettings" id="LabelSettings_boss"]
+font_size = 14
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.85)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_hud")
@@ -9,23 +38,27 @@ script = ExtResource("1_hud")
 offset_left = 12.0
 offset_top = 12.0
 offset_right = 212.0
-offset_bottom = 28.0
+offset_bottom = 30.0
+theme_override_styles/background = SubResource("StyleBox_bar_bg")
+theme_override_styles/fill = SubResource("StyleBox_health_fill")
 max_value = 100.0
 value = 100.0
 show_percentage = false
 
 [node name="FlashLabel" type="Label" parent="."]
 offset_left = 12.0
-offset_top = 32.0
+offset_top = 34.0
 offset_right = 212.0
-offset_bottom = 52.0
+offset_bottom = 54.0
+label_settings = SubResource("LabelSettings_hud")
 text = "FLASH 0"
 
 [node name="WeaponLabel" type="Label" parent="."]
 offset_left = 12.0
-offset_top = 52.0
+offset_top = 54.0
 offset_right = 212.0
-offset_bottom = 72.0
+offset_bottom = 74.0
+label_settings = SubResource("LabelSettings_hud")
 text = ""
 
 [node name="WaveLabel" type="Label" parent="."]
@@ -35,6 +68,7 @@ offset_left = -160.0
 offset_top = 12.0
 offset_right = -12.0
 offset_bottom = 34.0
+label_settings = SubResource("LabelSettings_hud")
 text = "WAVE 1/4"
 horizontal_alignment = 2
 
@@ -45,6 +79,7 @@ offset_left = -160.0
 offset_top = 36.0
 offset_right = -12.0
 offset_bottom = 58.0
+label_settings = SubResource("LabelSettings_hud")
 text = "CREW: MOB"
 horizontal_alignment = 2
 
@@ -55,9 +90,11 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -170.0
-offset_top = -46.0
+offset_top = -48.0
 offset_right = 170.0
 offset_bottom = -30.0
+theme_override_styles/background = SubResource("StyleBox_bar_bg")
+theme_override_styles/fill = SubResource("StyleBox_boss_fill")
 max_value = 220.0
 value = 220.0
 show_percentage = false
@@ -67,6 +104,7 @@ offset_left = 0.0
 offset_top = -24.0
 offset_right = 340.0
 offset_bottom = -4.0
+label_settings = SubResource("LabelSettings_boss")
 text = "WHARF RAT KING"
 horizontal_alignment = 1
 
@@ -76,10 +114,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -50.0
-offset_right = 180.0
-offset_bottom = -20.0
+offset_left = -220.0
+offset_top = -56.0
+offset_right = 220.0
+offset_bottom = -16.0
+label_settings = SubResource("LabelSettings_message")
 text = "WAVE CLEAR"
 horizontal_alignment = 1
 vertical_alignment = 1
