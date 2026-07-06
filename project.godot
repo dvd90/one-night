@@ -12,7 +12,7 @@ config_version=5
 
 config/name="ONE NIGHT"
 config/description="A short, story-driven 3D gang brawler in a PS1/PS2 low-poly skin. The Warriors crew combat x GTA urban flavor."
-config/version="0.1.0-m0"
+config/version="0.1.0"
 run/main_scene="res://scenes/ui/title.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"

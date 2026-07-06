@@ -32,6 +32,11 @@ toggles, lose/retry flow.
 | Crew command (mob/regroup) | Q | — | RB | CMD |
 | Pause | Esc | — | Start | II |
 
+**Desktop builds:** grab the latest Windows/Linux zip from the
+[Releases page](https://github.com/dvd90/one-night/releases) — each release also
+includes an itch.io-ready web zip. Tagging `v*` builds and publishes a release
+automatically.
+
 To run locally: install [Godot 4.7](https://godotengine.org/download), open
 `project.godot`, press F5. Tests: `godot --headless -s tests/lite_test_runner.gd`.
 
