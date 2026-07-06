@@ -4,6 +4,11 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to create (e.g. v0.1.0)"
+        required: true
+        default: "v0.1.0"
 
 permissions:
   contents: write
@@ -48,21 +53,22 @@ jobs:
         run: godot --headless -s tests/lite_test_runner.gd
 
       - name: Export all targets
+        env:
+          RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
         run: |
           mkdir -p export/web export/linux export/windows dist
           godot --headless --export-release "Web" export/web/index.html
           godot --headless --export-release "Linux" export/linux/one-night.x86_64
           godot --headless --export-release "Windows Desktop" export/windows/one-night.exe
-          VERSION="${GITHUB_REF_NAME:-dev}"
-          (cd export/web && zip -qr "../../dist/one-night-web-${VERSION}.zip" .)
-          (cd export/linux && zip -qr "../../dist/one-night-linux-${VERSION}.zip" .)
-          (cd export/windows && zip -qr "../../dist/one-night-windows-${VERSION}.zip" .)
+          (cd export/web && zip -qr "../../dist/one-night-web-${RELEASE_TAG}.zip" .)
+          (cd export/linux && zip -qr "../../dist/one-night-linux-${RELEASE_TAG}.zip" .)
+          (cd export/windows && zip -qr "../../dist/one-night-windows-${RELEASE_TAG}.zip" .)
           ls -la dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
         with:
+          tag_name: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
           files: dist/*.zip
           generate_release_notes: true
           body: |
@@ -76,9 +82,8 @@ jobs:
             - `one-night-web-*.zip` — static web build, ready to upload to itch.io
               (or play at https://dvd90.github.io/one-night/)
 
-      - name: Upload artifacts (non-tag runs)
+      - name: Upload artifacts
         uses: actions/upload-artifact@v4
-        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
         with:
           name: one-night-builds
           path: dist/*.zip
